@@ -1,0 +1,135 @@
+from random import randint
+import math
+import time
+
+def mergeSort(arr):
+    if len(arr) > 1:
+  
+         # Finding the mid of the array
+        mid = len(arr)//2
+  
+        # Dividing the array elements
+        L = arr[:mid]
+  
+        # into 2 halves
+        R = arr[mid:]
+  
+        # Sorting the first half
+        mergeSort(L)
+  
+        # Sorting the second half
+        mergeSort(R)
+  
+        i = j = k = 0
+  
+        # Copy data to temp arrays L[] and R[]
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+  
+        # Checking if any element was left
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+  
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+
+
+
+def knapsack(len: int, L: list, target: int):
+    sack = []
+    flag = True
+    max = len
+    t = target
+    while (t > 0 and max > 0):
+        i = 0
+        while i < max and flag :
+            if (L[i] <= t):
+                i += 1
+            else:
+                flag = False
+                if (i >= 1):
+                    i = i - 1
+        if (i == max and max > 0):
+            i = i - 1
+        t = t - L[i]
+        if (t >= 0):
+            sack.append(L[i])
+            L.remove(L[i])
+            max -= 1
+    return sack
+
+def knapsack2(len: int, L: list, target: int): #better code
+    sack = []
+
+    for i in range(len-1, -1, -1):
+        if L[i] <= target:
+            sack.append(L[i])
+            target -= L[i]
+    
+    return sack
+
+
+if __name__ == '__main__':
+    
+    flag2 = False
+    flag1 = True
+    if flag1:
+        trial = 10000
+        data = [[],[]]
+        
+        t0 = time.time()
+        for k in range(trial):
+            size = randint(1, 100)
+            L = []
+            count = 0
+            lower = randint(1, 100)
+            upper = randint(1,10)*lower + randint(1, 200)
+            for i in range(size):
+                m = randint(lower, upper)
+                if (m not in L):
+                    (L.append(m))
+                    count += 1
+            mergeSort(L)
+
+            target = randint(L[0], 5*size*L[count-1])
+            
+            # print(L, target)
+            s = knapsack2(count, L, target)
+            # print(s)
+            if sum(L) < target:
+                data[0].append(100)
+            else:
+                data[0].append(math.floor(100*sum(s)/target))
+            data[1].append(target)
+        t1 = time.time()
+
+        total = t1-t0
+        print("Total time for all this: {}".format(total))
+
+
+        avg = sum(data[0])/trial
+        print(data[0])
+        print(data[1])
+        print(avg, trial)
+            # print(knapsack(size, L, target), sum(knapsack(size, L, target)))
+    if flag2:
+        for i in range(5):
+            size = randint(5,9)
+            lstran = []
+            for i in range(size):
+                lstran.append(randint(-9, 10))
+            mergeSort(lstran)
+            print(lstran)
+
+
+    
