@@ -84,7 +84,7 @@ if __name__ == '__main__':
     flag2 = False
     flag1 = True
     if flag1:
-        trial = 10000
+        trial = 1000000
         data = [[],[]]
         
         t0 = time.time()
